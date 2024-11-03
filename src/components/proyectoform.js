@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import api from './api';
 
 const ProjectForm = ({ isEditing, projectData }) => {
     const [project, setProject] = useState(projectData || {
@@ -25,10 +25,10 @@ const ProjectForm = ({ isEditing, projectData }) => {
         e.preventDefault();
         try {
             if (isEditing) {
-                await axios.put(`/api/proyecto/actualizar/${project.id}`, project);
+                await api.put(`/proyecto/actualizar/${project.id}`, project);
                 alert('Proyecto editado con éxito');
             } else { 
-                await axios.post('/api/proyecto/crear', project);
+                await api.post('/proyecto/crear', project);
                 alert('Proyecto creado con éxito');
             } 
         } catch (error) {
@@ -40,76 +40,103 @@ const ProjectForm = ({ isEditing, projectData }) => {
         <form onSubmit={handleSubmit} style={formStyle}>
             <h2 style={headerStyle}>{isEditing ? 'Editar Proyecto' : 'Crear Proyecto'}</h2>
             
-            <label style={labelStyle}>Título</label>
+            <label htmlFor="titulo" style={labelStyle}>Título</label>
             <input
                 type="text"
+                id="titulo"
                 name="titulo"
                 value={project.titulo}
                 onChange={handleChange}
                 placeholder="Título"
+                title="Título del proyecto"
                 required
                 style={inputStyle}
             />
             
-            <label style={labelStyle}>Descripción</label>
+            <label htmlFor="descripcion" style={labelStyle}>Descripción</label>
             <textarea
+                id="descripcion"
                 name="descripcion"
                 value={project.descripcion}
                 onChange={handleChange}
                 placeholder="Descripción"
+                title="Descripción del proyecto"
                 style={textareaStyle}
             />
 
-            <label style={labelStyle}>Completada</label>
+            <label htmlFor="completada" style={labelStyle}>Completada</label>
             <input
                 type="checkbox"
+                id="completada"
                 name="completada"
                 checked={project.completada}
                 onChange={handleChange}
+                title="Marcar si el proyecto está completado"
                 style={checkboxStyle}
             />
 
-            <label style={labelStyle}>Fecha de Vencimiento</label>
+            <label htmlFor="fecha_vencimiento" style={labelStyle}>Fecha de Vencimiento</label>
             <input
                 type="date"
+                id="fecha_vencimiento"
                 name="fecha_vencimiento"
                 value={project.fecha_vencimiento}
                 onChange={handleChange}
+                placeholder="Fecha de Vencimiento"
+                title="Fecha de vencimiento del proyecto"
                 style={inputStyle}
             />
 
-            <label style={labelStyle}>Prioridad</label>
-            <select name="prioridad" value={project.prioridad} onChange={handleChange} style={inputStyle}>
+            <label htmlFor="prioridad" style={labelStyle}>Prioridad</label>
+            <select
+                id="prioridad"
+                name="prioridad"
+                value={project.prioridad}
+                onChange={handleChange}
+                title="Prioridad del proyecto"
+                style={inputStyle}
+            >
                 <option value="baja">Baja</option>
                 <option value="media">Media</option>
                 <option value="alta">Alta</option>
             </select>
 
-            <label style={labelStyle}>Asignado a</label>
+            <label htmlFor="asignado_a" style={labelStyle}>Asignado a</label>
             <input
                 type="text"
+                id="asignado_a"
                 name="asignado_a"
                 value={project.asignado_a}
                 onChange={handleChange}
                 placeholder="Asignado a"
+                title="Persona asignada al proyecto"
                 style={inputStyle}
             />
 
-            <label style={labelStyle}>Categoría</label>
-            <select name="categoria" value={project.categoria} onChange={handleChange} style={inputStyle}>
+            <label htmlFor="categoria" style={labelStyle}>Categoría</label>
+            <select
+                id="categoria"
+                name="categoria"
+                value={project.categoria}
+                onChange={handleChange}
+                title="Categoría del proyecto"
+                style={inputStyle}
+            >
                 <option value="">Selecciona una categoría</option>
                 <option value="clasificación">Clasificación</option>
                 <option value="tipo de tarea">Tipo de Tarea</option>
                 <option value="opcional">Opcional</option>
             </select>
 
-            <label style={labelStyle}>Costo del Proyecto</label>
+            <label htmlFor="costo_proyecto" style={labelStyle}>Costo del Proyecto</label>
             <input
                 type="number"
+                id="costo_proyecto"
                 name="costo_proyecto"
                 value={project.costo_proyecto}
                 onChange={handleChange}
                 placeholder="Costo del Proyecto"
+                title="Costo estimado del proyecto"
                 step="0.01"
                 style={inputStyle}
             />
@@ -120,6 +147,7 @@ const ProjectForm = ({ isEditing, projectData }) => {
 };
 
 export default ProjectForm;
+
 
 const formStyle = {
     maxWidth: '500px',
