@@ -25,10 +25,10 @@ const ProjectForm = ({ isEditing, projectData }) => {
         e.preventDefault();
         try {
             if (isEditing) {
-                await api.put(`/proyecto/actualizar/${project.id}`, project);
+                await api.put(`/proyectos/actualizar/${project.id}`, project);
                 alert('Proyecto editado con éxito');
             } else { 
-                await api.post('/proyecto/crear', project);
+                await api.post('/proyectos/crear', project);
                 alert('Proyecto creado con éxito');
             } 
         } catch (error) {

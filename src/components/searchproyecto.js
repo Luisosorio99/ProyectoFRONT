@@ -8,7 +8,7 @@ const ProjectSearch = () => {
   const handleSearch = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.get(`/api/proyecto/${id}`);
+      const response = await axios.get(`/api/proyectos/${id}`);
       setProject(response.data);
     } catch (error) {
       console.error('Error al buscar proyecto', error);
