@@ -14,11 +14,14 @@ const ProjectFormWithTable = () => {
         costo_proyecto: ''
     });
 
+    // URL base para las APIs
+    const BASE_URL = 'https://proyectoback-1.onrender.com';
+
     useEffect(() => {
         // Cargar proyectos iniciales
         const fetchProjects = async () => {
             try {
-                const response = await axios.get('/api/proyectos');
+                const response = await axios.get(`${BASE_URL}/proyectos/obtener`);
                 setProjects(response.data);
             } catch (error) {
                 console.error('Error al obtener proyectos:', error);
@@ -38,7 +41,7 @@ const ProjectFormWithTable = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('/api/proyecto/crear', project);
+            const response = await axios.post(`${BASE_URL}/proyectos/crear`, project);
             setProjects([...projects, response.data]); // Añadir el nuevo proyecto a la tabla
             alert('Proyecto creado con éxito');
             // Reiniciar el formulario
@@ -130,27 +133,27 @@ const ProjectFormWithTable = () => {
             <table style={tableStyle}>
                 <thead>
                     <tr>
-                        <th>Título</th>
-                        <th>Descripción</th>
-                        <th>Completada</th>
-                        <th>Fecha de Vencimiento</th>
-                        <th>Prioridad</th>
-                        <th>Asignado a</th>
-                        <th>Categoría</th>
-                        <th>Costo del Proyecto</th>
+                        <th style={thStyle}>Título</th>
+                        <th style={thStyle}>Descripción</th>
+                        <th style={thStyle}>Completada</th>
+                        <th style={thStyle}>Fecha de Vencimiento</th>
+                        <th style={thStyle}>Prioridad</th>
+                        <th style={thStyle}>Asignado a</th>
+                        <th style={thStyle}>Categoría</th>
+                        <th style={thStyle}>Costo del Proyecto</th>
                     </tr>
                 </thead>
                 <tbody>
                     {projects.map((project) => (
                         <tr key={project.id}>
-                            <td>{project.titulo}</td>
-                            <td>{project.descripcion}</td>
-                            <td>{project.completada ? 'Sí' : 'No'}</td>
-                            <td>{project.fecha_vencimiento}</td>
-                            <td>{project.prioridad}</td>
-                            <td>{project.asignado_a}</td>
-                            <td>{project.categoria}</td>
-                            <td>${project.costo_proyecto}</td>
+                            <td style={tdStyle}>{project.titulo}</td>
+                            <td style={tdStyle}>{project.descripcion}</td>
+                            <td style={tdStyle}>{project.completada ? 'Sí' : 'No'}</td>
+                            <td style={tdStyle}>{project.fecha_vencimiento}</td>
+                            <td style={tdStyle}>{project.prioridad}</td>
+                            <td style={tdStyle}>{project.asignado_a}</td>
+                            <td style={tdStyle}>{project.categoria}</td>
+                            <td style={tdStyle}>${project.costo_proyecto}</td>
                         </tr>
                     ))}
                 </tbody>
@@ -161,7 +164,7 @@ const ProjectFormWithTable = () => {
 
 export default ProjectFormWithTable;
 
-// Estilos
+// Definición de estilos
 const containerStyle = {
     maxWidth: '800px',
     margin: '0 auto',
@@ -170,6 +173,11 @@ const containerStyle = {
     boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)',
     backgroundColor: '#f9f9f9',
     textAlign: 'center'
+};
+
+const labelStyle = {
+    fontWeight: 'bold',
+    marginRight: '10px'
 };
 
 const formStyle = {
@@ -215,10 +223,6 @@ const tableStyle = {
     width: '100%',
     marginTop: '20px',
     borderCollapse: 'collapse'
-};
-
-const labelStyle = {
-    fontWeight: 'bold',
 };
 
 const thStyle = {

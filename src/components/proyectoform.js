@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import api from './api';
+import axios from 'axios';
 
 const ProjectForm = ({ isEditing, projectData }) => {
     const [project, setProject] = useState(projectData || {
@@ -13,6 +13,9 @@ const ProjectForm = ({ isEditing, projectData }) => {
         costo_proyecto: ''
     });
 
+    // URL base para las APIs
+    const BASE_URL = 'https://proyectoback-1.onrender.com';
+
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
         setProject({ 
@@ -25,10 +28,10 @@ const ProjectForm = ({ isEditing, projectData }) => {
         e.preventDefault();
         try {
             if (isEditing) {
-                await api.put(`/proyectos/actualizar/${project.id}`, project);
+                await axios.put(`${BASE_URL}/proyectos/actualizar/${project.id}`, project);
                 alert('Proyecto editado con éxito');
             } else { 
-                await api.post('/proyectos/crear', project);
+                await axios.post(`${BASE_URL}/proyectos/crear`, project);
                 alert('Proyecto creado con éxito');
             } 
         } catch (error) {
@@ -148,7 +151,7 @@ const ProjectForm = ({ isEditing, projectData }) => {
 
 export default ProjectForm;
 
-
+// Estilos
 const formStyle = {
     maxWidth: '500px',
     margin: '0 auto',
